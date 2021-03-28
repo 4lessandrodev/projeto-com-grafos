@@ -1,26 +1,19 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateTaskDto } from './dto/create-task.dto';
-import { UpdateTaskDto } from './dto/update-task.dto';
+import { Task } from './entities/task.entity';
+import { TaskRepository } from './task.repository';
 
 @Injectable()
 export class TaskService {
-  create(createTaskDto: CreateTaskDto) {
-    return 'This action adds a new task';
+  constructor(
+    @Inject(TaskRepository) private readonly taskRepository: TaskRepository,
+  ) {}
+  create(createTaskDto: CreateTaskDto): Promise<void> {
+    const task = new Task(createTaskDto);
+    return this.taskRepository.save(task);
   }
 
-  findAll() {
-    return `This action returns all task`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} task`;
-  }
-
-  update(id: number, updateTaskDto: UpdateTaskDto) {
-    return `This action updates a #${id} task`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} task`;
+  findAll(): Promise<Task[]> {
+    return this.taskRepository.getMany();
   }
 }

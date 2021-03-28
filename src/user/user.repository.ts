@@ -16,7 +16,7 @@ export class UserRepository {
   async save(user: User): Promise<void> {
     await this.persistenceManager.execute(
       new QuerySpecification(
-        `MERGE (u:User {id: "${user.id}", name: "${user.name}"} )`,
+        `MERGE (u:User {ID: "${user.ID}", name: "${user.name}"} )`,
       ),
     );
   }

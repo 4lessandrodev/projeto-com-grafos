@@ -1,13 +1,14 @@
+import { v4 as uuid } from 'uuid';
 interface UserProps {
-  id: string;
+  ID?: string;
   name: string;
 }
 
 export class User {
-  readonly id: string;
+  readonly ID: string;
   readonly name: string;
 
   constructor(props: UserProps) {
-    (this.id = props.id), (this.name = props.name);
+    (this.ID = props.ID ?? uuid()), (this.name = props.name);
   }
 }
